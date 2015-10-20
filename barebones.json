@@ -58,10 +58,20 @@
         }
     },
 
+    "formats": {
+        "font": ["eot", "otf", "ttf", "svg", "woff", "woff2"],
+        "image": ["jpg", "png", "svg"],
+        "script": "js",
+        "style": "scss"
+    },
+
     "server": {
         "port": 9000
     },
 
+    "sprite": {
+        "retina": false,
+        "name": "sprite.png"
     },
 
     "partials": {

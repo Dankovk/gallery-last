@@ -1,39 +1,61 @@
-/* global process */
+/* eslint-env node */
+/* eslint strict: 0, no-console: 0, complexity: [1, 5] */
+
+
+/* Project directory structure
+ *
+ * barebones
+ * |- bower_components          [vendor]   libraries (via Bower)
+ * |- node_modules              [node]     node packages (via npm)
+ * |- dist                      [project]  compiled files, misc files (html, ico, png, xml, txt)
+ * |  |- fonts                  [fonts]    compressed (eot, svg, ttf, woff)
+ * |  |- images                 [images]   compressed (jpg, png) and sprites (png)
+ * |  |- scripts                [scripts]  combined and minified (min.js)
+ * |  |  '- vendor              [scripts]  vendor libraries (min.js)
+ * |  '- styles                 [styles]   prefixed and minifed (min.css)
+ * '- src                       [project]  source files (html)
+ *    |- fonts                  [fonts]    source (eot, otf, ttf, svg, woff, woff2)
+ *    |- images                 [images]   source (jpg, png, svg)
+ *    |- misc                   [misc]     misc files (ico, png, xml, txt)
+ *    |- partials               [partials] source (html)
+ *    |- scripts                [scripts]  source (js)
+ *    |- sprites                [images]   sprite components (png)
+ *    |  '- icon                [example]  [images] sprite components (png)
+ *    '- styles                 [styles]   uncompiled source (scss)
+ *
+ */
+
+
 // Basic stuff we need
+// ===================
 var exec       = require('child_process').exec,
     del        = require('del'),
     config     = require('./barebones.json'),
-    fs         = require('fs'),
-    path       = require('path'),
     connect    = require('gulp-connect'),
     portfinder = require('portfinder'),
     gulp       = require('gulp');
 
+
 // Gulp plugins
-var rename         = require('gulp-rename'),
-    filter         = require('gulp-filter'),
+// ============
+var filter         = require('gulp-filter'),
     plumber        = require('gulp-plumber'),
     gulpSequence   = require('gulp-sequence'),
     gulpif         = require('gulp-if'),
     notify         = require("gulp-notify"),
-    concat         = require('gulp-concat'),
-    lazypipe       = require('lazypipe'),
-    newer          = require('gulp-newer'),
 
-    cache          = require('gulp-cache'),
+    lazypipe       = require('lazypipe'),
+
     imagemin       = require('gulp-imagemin'),
     fileinclude    = require('gulp-file-include'),
 
     sourcemaps     = require('gulp-sourcemaps'),
-    spritesmith    = require('gulp.spritesmith'),
-    merge          = require('merge-stream'),
 
     sass           = require('gulp-sass'),
     postcss        = require('gulp-postcss'),
     autoprefixer   = require('autoprefixer'),
     sprites        = require('postcss-sprites'),
     mqpacker       = require('css-mqpacker'),
-    csswring       = require('csswring'),
     postcssSVG     = require('postcss-svg'),
     postcssEasings = require('postcss-easings'),
     csso           = require('gulp-csso'),
@@ -41,36 +63,92 @@ var rename         = require('gulp-rename'),
     useref         = require('gulp-useref'),
     uglify         = require('gulp-uglify');
 
+/* Unused plugins:
+ *
+ * rename = require('gulp-rename'),
+ * concat = require('gulp-concat'),
+ * newer = require('gulp-newer'),
+ * spritesmith = require('gulp.spritesmith'),
+ * merge = require('merge-stream'),
+ * csswring = require('csswring'),
+ * checkCSS = require('gulp-check-unused-css');
+ */
+
+
+// Helper functions
+// ================
+
+/*
+ * Handle error
+ *
+ * Outputs internal error via gulp-notify
+ */
+var handleError = function (errorObject) {
+    notify.onError(errorObject.toString()).apply(this, arguments);
+
+    // Keep gulp from hanging on this task
+    if (typeof this.emit === 'function') this.emit('end');
+};
+
+var getFormats = function (type, def) {
+    var _def = def || [];
+
+    var formats = config && config.formats && config.formats[type]
+                ? config.formats[type]
+                : _def;
+
+    if (typeof formats == 'string') return [formats];
+    if (formats && formats.join) return formats;
+
+    return _def;
+};
+
+var formatGlob = function (type, def) {
+    var exts = getFormats(type);
+
+    if (exts.length === 1) return exts[0];
+    if (exts.length > 1) return '{' + exts.join(',') + '}';
+
+    return def || '*';
+};
+
+// http://stackoverflow.com/a/3561711
+var regexEscape = function (str) {
+    return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+};
+
+var formatRegex = function (type, def) {
+    var exts = getFormats(type);
+
+    if (exts.length === 1) return regexEscape(exts[0]);
+    if (exts.length > 1) return '(?:' + exts.map(regexEscape).join('|') + ')';
+
+    return def || '[a-z0-9]{2,5}';
+};
+
+var gulpSource = function (path) {
+    var stream = gulp.src(config.path.source + path);
+
+    // Handle errors
+    stream.pipe(plumber({
+        errorHandler: handleError
+    }));
+
+    return stream;
+};
+
+var gulpWatch = function (path, callback) {
+    return gulp.watch(config.path.source + path, callback);
+};
+
+
+// Task variables
+// ==============
 var buildPath = config.path.development;
 
-/* Unused plugins
- *
- * checkCSS = require('gulp-check-unused-css');
- *
- */
-
-/* Project directory structure
- *
- * barebones
- * |
- * |- dist                      [project] compiled files, misc files (html, ico)
- * |  |- fonts                  [fonts]   compressed (eot, svg, ttf, woff)
- * |  |- images                 [images]  compressed (jpg, png) and sprites (png)
- * |  |- scripts                [scripts] combined and minified (min.js)
- * |  |  '- vendor              [scripts] vendor libraries (min.js)
- * |  '- styles                 [styles]  prefixed and minifed (min.css)
- * '- src                       [project] source files, misc files (html, ico)
- *    |- fonts                  [fonts]   source (eot, svg, ttf, woff)
- *    |- images                 [images]  source (jpg, png)
- *    |- scripts                [scripts] source (js)
- *    |- sprites                [images]  sprite components (png)
- *    |  '- icon                [example] [images] sprite components (png)
- *    |- styles                 [styles]  uncompiled source (scss)
- *    '- vendor                 [vendor]  libraries (via Bower)
- *
- */
 
 // Gulp tasks
+// ==========
 
 /* Bower task
  *
@@ -90,12 +168,7 @@ gulp.task('bower', function (cb) {
  * Copies font files over to dest dir
  */
 gulp.task('font', function () {
-    gulp.src(config.path.source + config.path.font.src + '/**/*.{eot,otf,svg,ttf,woff}')
-
-        // Handle errors
-        .pipe(plumber({
-            errorHandler: handleError
-        }))
+    gulpSource(config.path.font.src + '/**/*.' + formatGlob('font', '{eot,ttf,svg,woff}'))
 
         .pipe(gulp.dest(buildPath + config.path.font.dest))
         .pipe(connect.reload());
@@ -106,19 +179,12 @@ gulp.task('font', function () {
  * Copies html files over to dest dir
  */
 gulp.task('html', function () {
-    var jsfiles = filter("**/*.js");
-    var assets = useref.assets(
-        {},
-        lazypipe()
-            .pipe(sourcemaps.init, {loadMaps: true})
-    );
+    var scripts = filter("**/*." + formatGlob('script', 'js')),
+        assets  = useref.assets({},
+            lazypipe().pipe(sourcemaps.init, {loadMaps: true})
+        );
 
-    gulp.src(config.path.source + '*.html')
-
-        // Handle errors
-        .pipe(plumber({
-            errorHandler: handleError
-        }))
+    gulpSource('*.' + formatGlob('document', 'html'))
 
         // Include partials
         .pipe(fileinclude({
@@ -132,10 +198,10 @@ gulp.task('html', function () {
         .pipe(assets)
 
         // Concatenate and minify javascripts
-        .pipe(jsfiles)
-        .pipe(gulpif(process.env.NODE_ENV == 'production', uglify()))
+        .pipe(scripts)
+        .pipe(gulpif(process.env.NODE_ENV === 'production', uglify()))
         .pipe(sourcemaps.write())
-        .pipe(jsfiles.restore())
+        .pipe(scripts.restore())
 
         // Restore html stream and write concatenated js file names
         .pipe(assets.restore())
@@ -148,34 +214,15 @@ gulp.task('html', function () {
  *
  * Copies compressed and optimized images over to dest dir
  */
-gulp.task('image', function() {
-    gulp.src(config.path.source + config.path.image.src + '/**/*.{jpg,png}')
+gulp.task('image', function () {
+    gulpSource(config.path.image.src + '/**/*.' + formatGlob('image', '{jpg,png}'))
 
-        // Handle errors
-        .pipe(plumber({
-            errorHandler: handleError
-        }))
-        .pipe(gulpif(process.env.NODE_ENV == 'production', cache(imagemin({
+        .pipe(gulpif(process.env.NODE_ENV === 'production', imagemin({
             optimizationLevel: 5,
             progressive: true,
             interlaced: true
-        }))))
+        })))
         .pipe(gulp.dest(buildPath + config.path.image.dest))
-        .pipe(connect.reload());
-});
-
-/* Icon task
- *
- * Copies icons over to dest dir
- */
-gulp.task('icon', function() {
-    gulp.src(config.path.source + config.path.icon.src + '/**/*.{jpg,png,svg}')
-
-        // Handle errors
-        .pipe(plumber({
-            errorHandler: handleError
-        }))
-        .pipe(gulp.dest(buildPath + config.path.icon.dest))
         .pipe(connect.reload());
 });
 
@@ -190,59 +237,50 @@ gulp.task('script', ['html']);
  * Compiles scss files to css dest dir
  */
 gulp.task('style', function () {
-    var productionProcessors = [
-        autoprefixer({
-            browsers: ['last 2 version']
-        }),
-        mqpacker,
+    var processors = [];
+
+    // Init processors
+    processors.push(autoprefixer({
+        browsers: ['last 2 version']
+    }));
+
+    if (process.env.NODE_ENV === 'production') {
+        processors.push(mqpacker);
+    }
+
+    processors.push(
         postcssEasings,
         sprites({
             stylesheetPath: buildPath + config.path.style.dest,
-            spritePath: buildPath + config.path.image.dest + '/sprite.png',
-            retina: config.sprites.retina,
+            spritePath: buildPath + config.path.image.dest + '/' + config.sprite.name,
+            retina: config.sprite.retina,
             outputDimensions: true,
             engine: 'pixelsmith',
-            filterBy      : function(image) {
-              return /\/sprites\/[-\/a-z0-9_]+\.png$/gi.test(image.url);
+            filterBy: function (image) {
+                var pattern = '^..\/'
+                            + regexEscape(config.path.sprite.src)
+                            + '\/[a-z0-9\-_]+\.'
+                            + formatRegex('sprite', 'png')
+                            + '$';
+
+                var regex = new RegExp(pattern, 'gi');
+
+                return regex.test(image.url);
             },
             verbose: true
-        }),
-        postcssSVG({
-            paths: [config.path.source + config.path.icon.src],
         })
-    ];
 
-    var developmentProcessors = [
-        autoprefixer({
-            browsers: ['last 2 version']
-        }),
-        postcssEasings,
-        sprites({
-            stylesheetPath: buildPath + config.path.style.dest,
-            spritePath: buildPath + config.path.image.dest + '/sprite.png',
-            retina: config.sprites.retina,
-            outputDimensions: true,
-            engine: 'pixelsmith',
-            filterBy      : function(image) {
-              return /\/sprites\/[-\/a-z0-9_]+\.png$/gi.test(image.url);
-            },
-            verbose: true
-        }),
-        postcssSVG({
-            paths: [config.path.source + config.path.icon.src],
-        })
-    ];
+        // postcssSVG({
+        //     paths: [config.path.source + config.path.icon.src]
+        // })
+    );
 
-    gulp.src(config.path.source + config.path.style.src + '/*.scss')
+    gulpSource(config.path.style.src + '/*.' + formatGlob('style', 'scss'))
 
-        // Handle errors
-        .pipe(plumber({
-            errorHandler: handleError
-        }))
         .pipe(sourcemaps.init())
         .pipe(sass())
-        .pipe(gulpif(process.env.NODE_ENV == 'production', csso()))
-        .pipe(gulpif(process.env.NODE_ENV == 'production', postcss(productionProcessors), postcss(developmentProcessors)))
+        .pipe(gulpif(process.env.NODE_ENV === 'production', csso()))
+        .pipe(postcss(processors))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(buildPath + config.path.style.dest))
         .pipe(connect.reload());
@@ -277,35 +315,31 @@ gulp.task('misc', function () {
  * Enters watch mode, automatically recompiling assets on source changes
  */
 gulp.task('watch', function () {
-    gulp.watch(config.path.source + '/*.html', function() {
+    gulpWatch('*.' + formatGlob('document', 'html'), function () {
         gulp.start('html');
     });
 
-    gulp.watch(config.path.source + '/' + config.path.html.partials + '/**/*.partial.html', function() {
+    gulpWatch(config.path.html.partials + '/**/*.' + formatGlob('partial', 'partial.html'), function () {
         gulp.start('html');
     });
 
-    gulp.watch(config.path.source + config.path.font.src + '/**/*.{eot,otf,svg,ttf,woff}', function() {
+    gulpWatch(config.path.font.src + '/**/*.' + formatGlob('font', '{eot,otf,svg,ttf,woff}'), function () {
         gulp.start('font');
     });
 
-    gulp.watch(config.path.source + config.path.script.src + '/**/*.js', function() {
+    gulpWatch(config.path.script.src + '/**/*.' + formatGlob('script', 'js'), function () {
         gulp.start('script');
     });
 
-    gulp.watch(config.path.source + config.path.sprite.src + '**/*.png', function(cb) {
+    gulpWatch(config.path.sprite.src + '**/*.' + formatGlob('sprite', 'png'), function () {
         gulp.start('style');
     });
 
-    gulp.watch(config.path.source + config.path.icon.src + '**/*.{jpg,png,svg}', function(cb) {
-        gulp.start('icon');
-    });
-
-    gulp.watch(config.path.source + config.path.style.src + '/**/*.scss', function() {
+    gulpWatch(config.path.style.src + '/**/*.' + formatGlob('style', 'scss'), function () {
         gulp.start('style');
     });
 
-    gulp.watch(config.path.source + config.path.image.src + '/**/*.{jpg,png}', function() {
+    gulpWatch(config.path.image.src + '/**/*.' + formatGlob('image', '{jpg,png,svg}'), function () {
         gulp.start('image');
     });
 });
@@ -332,14 +366,6 @@ gulp.task('clean:html', function (cb) {
  */
 gulp.task('clean:image', function (cb) {
     del(buildPath + config.path.image.dest, cb);
-});
-
-/* Clean:icon task
- *
- * Removes icons dest folder
- */
-gulp.task('clean:icon', function (cb) {
-    del(buildPath + config.path.icon.dest, cb);
 });
 
 /* Clean:script
@@ -378,7 +404,6 @@ gulp.task('clean', [
     'clean:font',
     'clean:html',
     'clean:image',
-    'clean:icon',
     'clean:script',
     'clean:style',
     'clean:misc'
@@ -388,16 +413,16 @@ gulp.task('clean', [
  *
  * Compiles all files. Uglify depends on flag (production or development)
  */
-gulp.task('build:dev', function(cb) {
+gulp.task('build:dev', function (cb) {
     process.env.NODE_ENV = 'development';
     buildPath = config.path.development;
-    gulpSequence('clean', ['font', 'html', 'icon', 'image', 'misc', 'style'], cb);
+    gulpSequence('clean', ['font', 'html', 'image', 'misc', 'style'], cb);
 });
 
-gulp.task('build', function(cb) {
+gulp.task('build', function (cb) {
     process.env.NODE_ENV = 'production';
     buildPath = config.path.production;
-    gulpSequence('clean', ['font', 'html', 'icon', 'image', 'misc', 'style'], cb);
+    gulpSequence('clean', ['font', 'html', 'image', 'misc', 'style'], cb);
 });
 
 /* Default task
@@ -418,23 +443,7 @@ gulp.task('init', [
  *
  * Creates a web server with an index of all html files within html dest dir
  */
-// gulp.task('connect', function() {
-//     var serveStatic = require('serve-static'),
-//         serveIndex  = require('serve-index');
-
-//     var app = require('connect')()
-//         .use(serveStatic(buildPath)) // serve files from within a given root directory
-//         .use(serveIndex(buildPath)); // returns middlware that serves an index of the directory in the given path
-
-//     require('http')
-//         .createServer(app)
-//         .listen(config.server.port)
-//         .on('listening', function() {
-//             console.log('Started connect web server on http://localhost:' + config.server.port);
-//         });
-// });
-
-gulp.task('connect', function() {
+gulp.task('connect', function () {
     portfinder.basePort = config.server.port;
 
     portfinder.getPort(function (err, port) {
@@ -446,7 +455,13 @@ gulp.task('connect', function() {
     });
 });
 
-gulp.task('connect:live', function() {
+/**
+ * Connect task with livereload
+ *
+ * Creates a web server with an index of all html files within html dest dir
+ * and automatic page reloading support
+ */
+gulp.task('connect:live', function () {
     portfinder.basePort = config.server.port;
 
     portfinder.getPort(function (err, port) {
@@ -467,9 +482,10 @@ gulp.task('server', [
     'watch'
 ]);
 
-/* Server task
+/* Server task with livereload
  *
  * Creates a web server and starts watching for any changes within src dir
+ * and automatically reloading any opened pages on recompile
  */
 gulp.task('server:live', [
     'connect:live',
@@ -477,32 +493,13 @@ gulp.task('server:live', [
 ]);
 
 
-// Helper functions
-
-/* Handle error function */
-function handleError(errorObject, callback) {
-    notify.onError(errorObject.toString().split(': ').join(': ')).apply(this, arguments);
-    // Keep gulp from hanging on this task
-    if (typeof this.emit === 'function') this.emit('end');
-};
-
-/* Get folders inside some diriectory function */
-function getFolders(dir) {
-    return fs.readdirSync(dir)
-        .filter(function(file) {
-            return fs.statSync(path.join(dir, file)).isDirectory();
-        });
-}
-
-
-
 // Unused gulp tasks
+// =================
 
 /* Lint:style task
  *
  * Checks html files for unused css classes and vice versa
  */
-
 // gulp.task('lint:style', /*['html', 'style'],*/ function () {
 //     // Check unused css classes
 //     gulp.src([config.path.style.dest + '/*.css', config.path.html.dest + '/*.html'])
@@ -525,7 +522,6 @@ function getFolders(dir) {
  *
  * Uses all available linters
  */
-
 // gulp.task('lint', [
 //     'lint:style'
 // ]);
