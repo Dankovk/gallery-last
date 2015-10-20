@@ -3,6 +3,7 @@
         "production": "dist/",
         "development": "dev/",
         "source": "src/",
+
         "font": {
             "src": "fonts",
             "dest": "fonts"
@@ -56,12 +57,13 @@
             ]
         }
     },
+
     "server": {
         "port": 9000
     },
-    "sprites": {
-        "retina": false
+
     },
+
     "partials": {
         "prefix": "<!-- partial:",
         "suffix": " -->",
