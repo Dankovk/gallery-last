@@ -33,7 +33,7 @@
             "vendor": "styles/vendor"
         },
         "misc": {
-            "src": "favicons",
+            "src": "misc",
             "dest": "dist",
             "files": [
                 "favicon.ico",
