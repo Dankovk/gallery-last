@@ -56,7 +56,6 @@ var filter         = require('gulp-filter'),
     autoprefixer   = require('autoprefixer'),
     sprites        = require('postcss-sprites'),
     mqpacker       = require('css-mqpacker'),
-    postcssSVG     = require('postcss-svg'),
     postcssEasings = require('postcss-easings'),
     csso           = require('gulp-csso'),
 
@@ -65,6 +64,7 @@ var filter         = require('gulp-filter'),
 
 /* Unused plugins:
  *
+ * postcssSVG = require('postcss-svg'),
  * rename = require('gulp-rename'),
  * concat = require('gulp-concat'),
  * newer = require('gulp-newer'),
@@ -130,11 +130,9 @@ var gulpSource = function (path) {
     var stream = gulp.src(config.path.source + path);
 
     // Handle errors
-    stream.pipe(plumber({
+    return stream.pipe(plumber({
         errorHandler: handleError
     }));
-
-    return stream;
 };
 
 var gulpWatch = function (path, callback) {
