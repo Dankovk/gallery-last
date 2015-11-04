@@ -742,7 +742,7 @@
         },
 
         check: function (value) {
-            return (value === 'true');
+            return value === 'true';
         }
 
     });
@@ -842,5 +842,4 @@
             }
         });
     });
-
 })(window.jQuery);
