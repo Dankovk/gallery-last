@@ -11,7 +11,13 @@ $layout-header-fixed: false !default;
         top: 0;
         left: 0;
         right: 0;
+        background-color: #fff;
+    	z-index: 300;
+        transition:background-color .15s linear;
     } @else if ($layout-header-height > 0) {
         height: $layout-header-height;
+    }
+    &.scrolled{
+        background-color: rgba(0,0,0,0.8);
     }
 }

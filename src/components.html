@@ -1,0 +1,252 @@
+<!doctype html>
+<html class="no-js">
+    <head>
+        <style>
+                .page-preloader {
+                        position: fixed;
+                        left: 0;
+                        top: 0;
+                        right: 0;
+                        bottom: 0;
+                        background: #fbfbfb;
+                        z-index: 9999991005000;
+                }
+                .page-preloader .preloader-itself {
+                        width: 110px;
+                        height: 110px;
+                        position: absolute;
+                        left: 50%;
+                        top: 50%;
+                        background: url('preloader.gif') no-repeat 50% 50%;
+                        margin: -55px 0 0 -55px;
+                }
+        </style>
+        <!-- partial:include('page/meta.partial.html') -->
+    </head>
+    <body>
+
+        <div class="layout-header"><!-- THIS IS "layout/header.partial.html" BLOCK -->
+            <!--DROPDOWN-->
+                    <div class="layout-container">
+                        <div class="dropdown-block unclosable">
+                            <div class="myDropdownBtn" id="myDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">DROPDOWN ME!</div>
+
+                            <ul class="dropdown-menu myDropdown" aria-labelledby="myDropdown">
+                                <li><a href="">Download.XLSX</a></li>
+                                <li><a href="">Filter</a></li>
+                                <li><a href="">Search</a></li>
+                                <li class="myCollapse collapsed" role="button" data-toggle="collapse" href="#dropdownCollapse" aria-expanded="false" aria-controls="dropdownCollapse">
+                                    <a href=""><span class="colapse-link">Show all</span></a>
+                                </li>
+
+                                <div class="collapse myCollapse dropdown-collapse" id="dropdownCollapse" aria-expanded="false">
+                                    <ul>
+                                        <li><a href="">Successful</a></li>
+                                        <li><a href="">Test</a></li>
+                                        <div class="li-line"></div>
+                                        <li><a href="">Yesterday</a></li>
+                                    </ul>
+                                </div>
+                            </ul>
+                        </div> 
+                    </div>
+            <!--DROPDOWN-END-->
+
+        </div>                      <!-- THIS IS "layout/header.partial.html" BLOCK END-->
+
+
+<!--CAROUSEL-->
+                    <section class="head-section">
+                        <div class="head-wrap">
+                            <div id="myCarousel" class="carousel slide carousel-top" data-ride="carousel">
+
+                                <ol class="carousel-indicators">
+                                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                                    <li data-target="#myCarousel" data-slide-to="3"></li>
+                                </ol>
+
+                                <div class="carousel-inner" role="listbox">
+                                    <div class="item active">
+                                        <div class="container">
+                                            <div class="layout-container">
+                                                <div class="head-content">
+                                                    <h1>Slide 1</h1>
+                                                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="item">
+                                        <div class="container">
+                                            <div class="layout-container">
+                                                <div class="head-content">
+                                                    <h1>Slide 2</h1>
+                                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet..</p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="item">
+                                        <div class="container">
+                                            <div class="layout-container">
+                                                <div class="head-content">
+                                                    <h1>Slide 3</h1>
+                                                    <p>The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="item">
+                                        <div class="container">
+                                            <div class="layout-container">
+                                                <div class="head-content">
+                                                    <h1>Slide 4</h1>
+                                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet..</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <a class="carousel-control left" href="#myCarousel" role="button" data-slide="prev">
+                                    <span class="sr-only">Prev</span>
+                                </a>
+                                <a class="carousel-control right" href="#myCarousel" role="button" data-slide="next">
+                                    <span class="sr-only">Next</span>
+                                </a>
+
+                            </div>
+                            <div class="slide-background-wrap">
+                                <div style="background-image: url('images/carousel-1300x700.jpg');
+                                        background-size: cover; background-position: bottom" class="slide-background active"></div>
+                                <div style="background-image: url('images/carousel-1100x700.jpg');
+                                        background-size: cover; background-position: bottom" class="slide-background"></div>
+                                <div style="background-image: url('images/carousel-1250x750.jpg');
+                                        background-size: cover; background-position: bottom" class="slide-background"></div>
+                                <div style="background-image: url('images/carousel-1150x700.jpg');
+                                        background-size: cover; background-position: bottom" class="slide-background"></div>
+                            </div>
+                        </div>
+                    </section>
+
+<!--CAROUSEL-END-->
+
+
+        <div class="layout-content components-content">
+            <div class="layout-container">
+                <div class="row">
+<!--TABS-->
+                    <section class="tabs-section">
+                        <h1>Tabs</h1>
+                        <div class="main-tabs" role="tabpanel">
+                          <ul role="tablist">
+                            <li role="presentation" class="active">
+                               <a href="#title1" aria-controls="title1" role="tab" data-toggle="tab">
+                                    title1
+                               </a>
+                            </li>
+    
+                            <li role="presentation" class="">
+                               <a href="#title2" aria-controls="title2" role="tab" data-toggle="tab">
+                                    title2
+                               </a>
+                            </li>
+    
+                            <li role="presentation" class="">
+                               <a href="#title3" aria-controls="title3" role="tab" data-toggle="tab">
+                                    title3
+                               </a>
+                            </li>
+    
+                          </ul>
+                        </div>
+
+
+                        <!--========================================-->
+
+                        <div class="main-tabs tab-content">
+
+                            <div class="tab-pane fade in active" role="tabpanel" id="title1">
+                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. </p>
+                            </div>
+
+                            <div class="tab-pane fade" role="tabpanel" id="title2">
+                                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet..</p>
+                            </div>
+
+                            <div class="tab-pane fade" role="tabpanel" id="title3">
+                                <p>The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
+                            </div>
+
+                        </div>
+
+                    </section>
+<!--TABS-END-->
+
+
+
+<!--COLLAPSE-->
+                    <section class="collapse-section">
+                        <h1>Collapse</h1>
+                        <div class="collapse-block">
+                            <div class="collapse-item">
+                            <a class="collapsed" role="button" data-toggle="collapse" href="#question1" aria-expanded="false" aria-controls="question1">
+                                <h3>Collapse 1</h3> <span class="icon-collapse-arrow"></span>
+                            </a>
+                            <div class="collapse" id="question1">
+                                <div class="well">
+                                    <p>Мы возмещаем ущерб если посылка была доставлена с задержкой, которая превышает неделю, товар испортился во время транспортировки или не соответствует вашему заказу. Во всех остальных случаях, возмещение ущерба не предусмотрено.</p>
+                                </div>
+                            </div>
+                            </div>
+
+                            <div class="collapse-item">
+                            <a class="collapsed" role="button" data-toggle="collapse" href="#question2" aria-expanded="false" aria-controls="question2">
+                                <h3>Collapse 2</h3> <span class="icon-collapse-arrow"></span>
+                            </a>
+                            <div class="collapse" id="question2">
+                                <div class="well">
+                                    <p>Мы возмещаем ущерб если посылка была доставлена с задержкой, которая превышает неделю, товар испортился во время транспортировки или не соответствует вашему заказу. Во всех остальных случаях, возмещение ущерба не предусмотрено.</p>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+
+                    </section>
+<!--COLLAPSE-END-->
+
+<!--FORM BLOCK-->
+                    <section class="form-section">
+                        <h1>Input Upload</h1>
+                        <form action="" method="POST">
+                            <div class="file-input-cont">
+                        <input type="file" class="file-input" id="file-drop"/>
+                        <label for="file-drop" class="file-label">Upload 1 file 
+                            <div class="img-container">
+                               
+                            </div>
+                        </label>
+                    </div>
+                        </form>
+                        
+                    </section>
+<!--FORM BLOCK END-->
+
+                </div><!--row-->
+            </div><!--layout-container-->
+        </div><!--layout-content-->
+
+        <!-- partial:include('layout/footer.partial.html') -->
+
+        <!-- partial:include('page/footer.partial.html') -->
+
+    </body>
+</html>
