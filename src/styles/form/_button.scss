@@ -1,64 +1,28 @@
-/* Barebones Compass form styles
- *
- * Form button styles
- */
-
-.btn {
-    letter-spacing: 1px;
-    text-align: center;
-
-    background-image: none;
-
-    margin: 0;
-    outline: 0;
-    border: 0;
-    border-radius: 5px;
-    padding: 5px;
-
-    display: inline-block;
-    vertical-align: middle;
-
-    user-select: none;
-
-    @include button-basic(
-        $bg:        #333, $color:        #fff,
-        $bg-hover:  #777, $color-hover:  #fff,
-        $bg-active: #000, $color-active: #fff
-    );
-}
-
-.btn-primary {
-    @include button-basic(
-        $bg:        #177ee6, $color:        #fff,
-        $bg-hover:  #3d97f2, $color-hover:  #fff,
-        $bg-active: #246bb3, $color-active: #fff
-    );
-}
-
-.btn-block {
-    display: block;
+.btn{
+    background-color: #B3B3B3;
+    line-height: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
     width: 100%;
-
-    & + & {
-        margin-top: $base-margin / 2;
+    border: none;
+    outline: none;
+    font-weight: 800;
+    color: #fff;
+    text-transform: uppercase;
+    border-radius: 3px;
+    transition: all .3s ease;
+    padding-top: 0;
+    padding-bottom: 0;
+    &:hover{
+        background-color: #B3B3B3 + 30%;
     }
-}
-
-.btn-transparent {
-    border: 1px solid #555;
-    background: transparent;
-    outline: 0;
-    text-decoration: none;
-    color: #555;
-}
-
-.btn-disabled {
-    background: #ccc;
-    outline: 0;
-    text-decoration: none;
-
-    &:hover,
     &:active{
-        background: #ccc;
+        background-color: #B3B3B3 - 30%;
+    }
+    &.btn-transparent{
+        background-color: transparent;
+        border: 1px solid #979797;
+        color: #979797;
+        text-align: center;
     }
 }

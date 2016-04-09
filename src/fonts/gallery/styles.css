@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "gallery";
+  src:url("fonts/gallery.eot");
+  src:url("fonts/gallery.eot?#iefix") format("embedded-opentype"),
+    url("fonts/gallery.woff") format("woff"),
+    url("fonts/gallery.ttf") format("truetype"),
+    url("fonts/gallery.svg#gallery") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[data-icon]:before {
+  font-family: "gallery" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="ic-"]:before,
+[class*=" ic-"]:before {
+  font-family: "gallery" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ic-basket:before {
+  content: "\61";
+}
+.ic-line-arrow:before {
+  content: "\62";
+}
