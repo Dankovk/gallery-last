@@ -1,0 +1,58 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "gale";
+  src:url("fonts/gale.eot");
+  src:url("fonts/gale.eot?#iefix") format("embedded-opentype"),
+    url("fonts/gale.woff") format("woff"),
+    url("fonts/gale.ttf") format("truetype"),
+    url("fonts/gale.svg#gale") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[data-icon]:before {
+  font-family: "gale" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="gr-"]:before,
+[class*=" gr-"]:before {
+  font-family: "gale" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.gr-basket:before {
+  content: "\61";
+}
+.gr-line-arrow:before {
+  content: "\62";
+}
+.gr-photo:before {
+  content: "\63";
+}
+.gr-text:before {
+  content: "\64";
+}
+.gr-video:before {
+  content: "\65";
+}
+.gr-line-arrow-1:before {
+  content: "\66";
+}

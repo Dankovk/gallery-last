@@ -2,9 +2,40 @@
 <html class="no-js">
 <head>
     <!-- partial:include('page/meta.partial.html') -->
-
+    <style>
+        .preloader-cont{
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: #fff;
+            z-index: 100500;
+        }
+        .preloader-itself{
+            background: url('preloader.gif') no-repeat 50% 50%;
+            background-size: cover;
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            top:50%;
+            left: 50%;
+            transform: translate3d(-50%,-50%, 0);
+        }
+    </style>
 </head>
 <body>
+<div class="preloader-cont">
+    <div class="preloader-itself"></div>
+</div>
+
+<div class="modal fade" id="modal-blog" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog archive-modal">
+        <div class="modal-content">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aperiam deserunt dolorem dolores ducimus explicabo impedit ipsam ipsum iusto labore laudantium, possimus quam rem repellat reprehenderit rerum vel velit voluptatum!
+        </div>
+    </div>
+</div>
 <!--[if lt IE 10]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
@@ -34,20 +65,68 @@
 </div>
 
 <div class="layout-content main-page-content">
-    <img src="images/main-page-bg.png" class="bg-img main-page-bg">
+    <img src="images/main-page-bg.jpg" class="bg-img main-page-bg">
     <div class="layout-container-main-page">
         <div class="head-naming">
-            <h1 class="logo-naming">THEODORACOPULOS</h1>
+            <h1 class="logo-naming ">THEODORACOPULOS</h1>
         </div>
         <div class="blocks-wrap-main-page">
             <div class="row divider">
-                <div class="notes">
-                    <h3>notes</h3>
+                <div data-wow-duration="2s" class="notes wow zoomIn">
+                    <h3 data-toggle="modal" data-target="#modal-blog">notes</h3>
                     <div class="notes-content">
-                        <a href="#" type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Modal</a>
+                        <a class="note photo-note">
+                            <div class="note-content">
+                                <div class="note-icon"><span class="gr-photo"></span></div>
+                                <div class="note-descr">
+                                    <div class="note-header"><h2>Just a simple photo-note</h2></div>
+                                    <div class="note-date">added 7 hours ago</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="note photo-note">
+                            <div class="note-content">
+                                <div class="note-icon"><span class="gr-photo"></span></div>
+                                <div class="note-descr">
+                                    <div class="note-header"><h2>Just a simple photo-note</h2></div>
+                                    <div class="note-date">added 7 hours ago</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="note photo-note">
+                            <div class="note-content">
+                                <div class="note-icon"><span class="gr-photo"></span></div>
+                                <div class="note-descr">
+                                    <div class="note-header"><h2>Just a simple photo-note</h2></div>
+                                    <div class="note-date">added 7 hours ago</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="note photo-note">
+                            <div class="note-content">
+                                <div class="note-icon"><span class="gr-photo"></span></div>
+                                <div class="note-descr">
+                                    <div class="note-header"><h2>Just a simple photo-note</h2></div>
+                                    <div class="note-date">added 7 hours ago</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="note photo-note">
+                            <div class="note-content">
+                                <div class="note-icon"><span class="gr-photo"></span></div>
+                                <div class="note-descr">
+                                    <div class="note-header"><h2>Just a simple photo-note</h2></div>
+                                    <div class="note-date">added 7 hours ago</div>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                    <div class="archive-cont">
+                        <a href="#">Archive</a>
                     </div>
                 </div>
-                <div class="recent-works">
+                <div data-wow-duration="2s" class="recent-works wow zoomIn">
                     <h3>Recent works</h3>
                     <div class="recent-works-content">
                         <div class="the-most-recent-work">
@@ -218,7 +297,7 @@
                 </div>
             </div>
             <div class="row divider">
-                <div class="events">
+                <div data-wow-duration="2s" class="events wow zoomIn">
                     <h3>Events</h3>
                     <div class="events-text">
                         <p>I love how @craigmod’s website uses my FF MetaSerif and I love how @craigmod’s website uses my FF MetaSerif and </p>
@@ -227,7 +306,7 @@
                         <h4>archive</h4>
                     </div>
                 </div>
-                <div class="new-artist">
+                <div data-wow-duration="2s" class="new-artist wow zoomIn">
                     <h3>New Artist</h3>
                     <div class="new-artist-text">
                         <p>I love how @craigmod’s website uses my FF MetaSerif and defaults to MetaSans on mobile. craigmod.com/sputnik/leica</p>
@@ -238,7 +317,7 @@
                 </div>
             </div>
             <div class="row divider" style="padding-top: 72px">
-                <div class="guest-book">
+                <div class="guest-book wow zoomIn">
                     <h3 class="centered">guest book</h3>
                     <div class="comments-wrapper">
                         <ul class="guest-book-slider">
@@ -319,7 +398,7 @@
                 </div>
             </div>
             <div class="row divider">
-                <div class="form" style="margin-top: 270px;">
+                <div data-wow-duration="2s" class="form wow zoomIn" style="margin-top: 270px;">
                     <h3>contact</h3>
                     <form action="post">
                         <div class="form-group floated">
@@ -342,12 +421,6 @@
     </div>
 </div>
 <!-- partial:include('page/footer.partial.html') -->
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-    <div class="modal-dialog archive-modal">
-        <div class="modal-content">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aperiam deserunt dolorem dolores ducimus explicabo impedit ipsam ipsum iusto labore laudantium, possimus quam rem repellat reprehenderit rerum vel velit voluptatum!
-        </div>
-    </div>
-</div>
+
 </body>
 </html>
