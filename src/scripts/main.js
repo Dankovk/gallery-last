@@ -45,10 +45,11 @@
 
 
 
-    function handleCategories (data){
+    function handleCategories (data,slug){
         console.log('cliked');
         $('.pics-wrap').empty();
         $('.pics-wrap').append(data);
+        history.replaceState(null, null, '/product-category/'+slug+'/');
     }
     $(document).on('click', '.artist-name', function(){
         $(this).parent().find('.active').removeClass('active');
@@ -67,8 +68,11 @@
         e.preventDefault();
         var categoryName = $(this).attr('data-slug');
         $.ajax({
-            url:'/wp-admin/admin-ajax.php?action=get_products',
-            data: categoryName,
+            url:'/wp-admin/admin-ajax.php',
+            data: {
+                'category':categoryName,
+                'action': 'get_products'
+            },
             beforeSend: function(){
                 $('.preloader-wrap').fadeIn('fast');
             },
@@ -76,7 +80,7 @@
                 $('.preloader-wrap').fadeOut('fast');
             },
             success: function(data){
-                handleCategories(data);
+                handleCategories(data, categoryName);
             }
         });
     });

@@ -134,6 +134,8 @@ h4{
     a{
       color: #9c9c9c;
       text-decoration: none;
+      display: block;
+      text-transform: uppercase;
     }
     &.active{
       color: $base-font-color;
@@ -441,6 +443,8 @@ html{
     text-align: left;
     img{
       display: inline-block;
+      height: 66px;
+      width: 74px;
     }
     .descr{
       display: inline-block;
@@ -808,6 +812,7 @@ html{
 .single-art-content{
   padding-top: 56px;
   background-image: url('../images/cart-bg.png');
+  background-size: cover;
   .art-container{
     padding-top: 80px;
     padding-bottom: 56px;
@@ -910,25 +915,204 @@ figure{
 .preloader-wrap{
   position: absolute;
   display: none;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 10px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  right: auto;
+  height: 100vh;
   bottom: 0;
-  background: rgba(255,255,255,.5);
+  width: 780px;
+  height: 100%;
+  background: #fff;
   z-index: 111111111111;
   .preloader-elem{
     position: absolute;
-    margin-top: 50%;
-    top: 50%;
+    margin-top: 34%;
+    /* margin: 0 auto; */
+    /* top: 50%; */
     left: 50%;
     z-index: 1111111111111;
+    -webkit-transform: translateX(-50%) translateY(-50%);
     transform: translateX(-50%) translateY(-50%);
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
+    background-size: cover;
     background-image: url("../preloader.gif");
   }
 }
-.pics-wrap{
+.paintings-list{
   position: relative;
 }
+
+
+.post-wrap{
+  padding-top: 0!important;
+  .post-header{
+    line-height: 80px;
+    padding: 0 30px;
+    background-color: #FAF9F9;
+    @extend %clearfix;
+    h1{
+      float: left;
+      font-size: 18px;
+      margin: 0;
+      line-height: inherit;
+    }
+    .author-date{
+      float: right;
+      margin-top: 0;
+      span{
+        font-size: 13px;
+        color: #A1A1A1;
+        display: inline-block;
+        &:first-of-type{
+          border-right: 1px solid #A1A1A1;
+          line-height: 15px;
+          padding-right: 10px;
+          margin-right: 5px;
+        }
+      }
+
+    }
+  }
+  .post-img-container{
+    img{
+      display: block;
+      margin: 0 auto;
+      min-width: 100%;
+      height: auto;
+    }
+  }
+  .post-content{
+    padding-top: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    .post-text{
+      padding-top: 10px;
+      p{
+        font-size: 13px;
+      }
+    }
+    img{
+      display: block;
+      min-width: 100%;
+      height: auto;
+      /* padding: 30px; */
+      margin: 0 auto;
+      max-width: 100%;
+    }
+    iframe{
+      display: block;
+      margin: 0 auto;
+    }
+  }
+  .posts-pagination{
+    padding: 0 30px;
+    padding-top: 50px;
+    .previous-post{
+      float: left;
+      a{
+        text-decoration: none;
+      }
+      span{
+        font-size: 16px;
+        text-align: center;
+        display: block;
+        text-decoration: none;
+        color: #5B5B5B;
+        &.post-exerp{
+          font-size: 13px;
+          font-weight: 500;
+        }
+      }
+    }
+    .next-post{
+      float: right;
+      a{
+        text-decoration: none;
+      }
+      span{
+        font-size: 16px;
+        text-align: center;
+        display: block;
+        text-decoration: none;
+        color: #5B5B5B;
+        &.post-exerp{
+          font-size: 13px;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+.archive-wrap{
+ .archive-items-wrap{
+   .img-wrap{
+   float: left;
+     margin-right: 20px;
+   }
+   .text-content{
+     display: inline-block;
+     width: 630px;
+   }
+ }
+  h1{
+    margin-top: 0;
+    font-size: 22px;
+    line-height: inherit;
+  }
+  .archive-header{
+    line-height: 80px;
+    background-color: #FAF9F9;
+    padding: 0 30px;
+  }
+  .item{
+    position: relative;
+    @extend %clearfix;
+    height: auto;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-right: 30px;
+    padding-left: 30px;
+    border-bottom: 1px solid #E7E7E7;
+    h2{
+      margin-top: 0;
+      margin-bottom: 0;
+      font-size: 16px;
+    }
+    p{
+      margin-top: 0;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+    .post-data{
+      position: absolute;
+      bottom: 39px;
+      div{
+        display: inline-block;
+        font-size: 13px;
+        color: #ABABAB;
+      }
+      .author{
+        border-right: 1px solid #ABABAB;
+        padding-right: 5px;
+        margin-right: 5px;
+      }
+    }
+    a{
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+}
+.the-most-recent-work{
+  .work-pic{
+    img{
+      width: 124px;
+      height: 170px;
+    }
+  }
+}
+
 
