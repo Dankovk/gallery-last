@@ -393,6 +393,12 @@ html{
       padding-left: 18px;
       font-size: 13px;
       padding-right: 18px;
+      a{
+        color: #404040;
+        &:hover {
+          color: #717070;
+        }
+      }
     }
     .work-pic{
       display: inline-block;
@@ -461,6 +467,12 @@ html{
         color: #b4b4b4;
         font-size: 10px;
         font-weight: 500;
+      }
+      a{
+        color: #404040;
+        &:hover{
+          color: #717070;
+        }
       }
     }
   }
@@ -612,11 +624,11 @@ html{
   margin-left: 228px;
   .floated{
     float: left;
-    &:first-of-type{
+    &:nth-of-type(2n){
       width: 45%;
       margin-right: 2%;
     }
-    &:last-of-type{
+    &:nth-of-type(2n+1){
       width: 53%;
     }
   }
@@ -1115,4 +1127,20 @@ figure{
   }
 }
 
+
+.archive_left {  
+    position: absolute;
+    width: 68px;
+    bottom: 0;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #b3b3b3;
+    text-align: right;
+    a{
+      color: #404040;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 13px;
+      text-decoration: none;
+    }
+}
 
