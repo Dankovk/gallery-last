@@ -25,4 +25,13 @@
         color: #979797;
         text-align: center;
     }
+    a {
+        text-decoration: none;
+        &:hover{
+            color: #979797;
+        }
+        &:visited {
+            color: #979797;
+        }
+    }
 }
