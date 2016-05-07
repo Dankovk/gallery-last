@@ -49,7 +49,17 @@
         console.log('cliked');
         $('.pics-wrap').empty();
         $('.pics-wrap').append(data);
+        $('.category').attr('data-cur-slug', slug);
         history.replaceState(null, null, '/product-category/'+slug+'/');
+    }
+    function handleSubCats (data, slug, subcat) {
+        $('.pics-wrap').empty();
+        $('.pics-wrap').append(data);
+        if(slug.length>2){
+            history.replaceState(null, null, '/product-category/'+slug+'/'+subcat);
+        }else{
+            history.replaceState(null, null, '/product-category/'+subcat);
+        }
     }
     $(document).on('click', '.artist-name', function(){
         $(this).parent().find('.active').removeClass('active');
@@ -84,6 +94,40 @@
             }
         });
     });
+    $(document).on('click', '.type-of-art div ',function(e){
+        e.preventDefault();
+        var typeSlug = $(this).find('a').attr('data-slug');
+        var curCat = $('.category').attr('data-cur-slug');
+        if(curCat!=='paintings'&&curCat!=='drawings'&&curCat!=='prints'){
+            $.ajax({
+                url:'/wp-admin/admin-ajax.php',
+                data:'action=get_products_by_category&subcategory='+typeSlug+'&category='+curCat,
+                beforeSend: function(){
+                    $('.preloader-wrap').fadeIn('fast');
+                },
+                complete: function(){
+                    $('.preloader-wrap').fadeOut('fast');
+                },
+                success: function(data){
+                    handleSubCats(data, curCat, typeSlug);
+                }
+            });
+        }else{
+            $.ajax({
+                url:'/wp-admin/admin-ajax.php',
+                data:'action=get_products_by_category&subcategory='+typeSlug,
+                beforeSend: function(){
+                    $('.preloader-wrap').fadeIn('fast');
+                },
+                complete: function(){
+                    $('.preloader-wrap').fadeOut('fast');
+                },
+                success: function(data){
+                    handleSubCats(data, curCat, typeSlug);
+                }
+            });
+        }
+    });
 
 
     $('[name="woocommerce_checkout_place_order"]').val('Continue to PayPal');
@@ -103,6 +147,9 @@
 
     $('#comment').attr('rows', '1');
     $('#reply-title').remove();
+    $('.woocommerce-billing-fields h3').remove();
+    $('.address-field label').remove();
+    $('.address-field').addClass('checkout_i');
 
     new WOW().init();
 })(window.jQuery);
