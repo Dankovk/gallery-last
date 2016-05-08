@@ -247,6 +247,7 @@ h4{
     color: #9c9c9c;
     padding-left: 20px;
     text-align: right;
+    text-transform: uppercase;
     &.active{
       color: $base-font-color;
       font-weight: 800;
@@ -1404,4 +1405,9 @@ input[name="woocommerce_checkout_place_order"] {
 .create-account, .woocommerce-message, .screen-reader-response, .wpcf7-mail-sent-ok {
   display: none;
  }
-
+.slider-img{
+  height: 66px;
+  width: 74px;
+  background-size: cover;
+  background-position: 50% 50%;
+}

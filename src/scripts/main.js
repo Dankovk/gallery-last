@@ -51,6 +51,7 @@
         $('.pics-wrap').append(data);
         $('.category').attr('data-cur-slug', slug);
         history.replaceState(null, null, '/product-category/'+slug+'/');
+        $('.type-of-art').find('active').removeClass('active');
     }
     function handleSubCats (data, slug, subcat) {
         $('.pics-wrap').empty();
@@ -96,9 +97,11 @@
     });
     $(document).on('click', '.type-of-art div ',function(e){
         e.preventDefault();
+        $(this).parent().find('.active').removeClass('active');
+        $(this).addClass('active');
         var typeSlug = $(this).find('a').attr('data-slug');
         var curCat = $('.category').attr('data-cur-slug');
-        if(curCat!=='paintings'&&curCat!=='drawings'&&curCat!=='prints'){
+        if(curCat!=='paintings'&&curCat!=='drawings'&&curCat!=='prints' && curCat.length>2){
             $.ajax({
                 url:'/wp-admin/admin-ajax.php',
                 data:'action=get_products_by_category&subcategory='+typeSlug+'&category='+curCat,
